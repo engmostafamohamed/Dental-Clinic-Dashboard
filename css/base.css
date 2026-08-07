@@ -1,0 +1,298 @@
+/* ==========================================================================
+   base.css — Reset, document defaults, typography, icon font, animations
+   --------------------------------------------------------------------------
+   Loaded after Bootstrap so it wins on the handful of element defaults the
+   design overrides. Nothing here is component-specific.
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* the app shell owns all scrolling */
+}
+
+a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--brand-strong);
+  text-decoration: underline;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Icons
+   Material Symbols Rounded is addressed through a bare <i> element so markup
+   stays terse: <i>calendar_month</i>. `.ico-fill` switches to the filled
+   optical variant, `.ico-sm` / `.ico-lg` adjust size.
+   -------------------------------------------------------------------------- */
+i,
+.ico {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  unicode-bidi: isolate;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+  flex: none;
+  user-select: none;
+}
+
+.ico-fill {
+  font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+.ico-xs { font-size: 14px; }
+.ico-sm { font-size: 16px; }
+.ico-md { font-size: 18px; }
+.ico-lg { font-size: 22px; }
+.ico-xl { font-size: 28px; }
+
+/* --------------------------------------------------------------------------
+   Scrollbars
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+  border-radius: 8px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   Animations — referenced by the shell, modals and side panels
+   -------------------------------------------------------------------------- */
+@keyframes dcFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dcSlide {
+  from { transform: translateX(24px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes dcPopCenter {
+  from { transform: translate(-50%, -50%) translateY(12px) scale(0.98); opacity: 0; }
+  to   { transform: translate(-50%, -50%); opacity: 1; }
+}
+
+@keyframes dcPanel {
+  from { transform: translateX(18px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+.anim-fade  { animation: dcFade 0.16s ease both; }
+.anim-slide { animation: dcSlide 0.2s ease both; }
+.anim-pop   { animation: dcPopCenter 0.18s ease both; }
+.anim-panel { animation: dcPanel 0.2s ease both; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   RTL
+   Arabic flips the whole shell via dir="rtl" on <html>. Logical properties
+   handle layout; this rule keeps mixed Latin/Arabic runs (names, prices,
+   IDs) reading in their own natural direction rather than the container's.
+   -------------------------------------------------------------------------- */
+[dir='rtl'] span,
+[dir='rtl'] div,
+[dir='rtl'] td,
+[dir='rtl'] th,
+[dir='rtl'] button,
+[dir='rtl'] a,
+[dir='rtl'] input,
+[dir='rtl'] textarea,
+[dir='rtl'] option,
+[dir='rtl'] h1,
+[dir='rtl'] h2,
+[dir='rtl'] h3 {
+  unicode-bidi: plaintext;
+}
+
+/* Charts are always authored left-to-right; keep them that way under RTL. */
+.ltr {
+  direction: ltr;
+}
+
+/* --------------------------------------------------------------------------
+   Utility helpers used widely enough to earn a place in base
+   -------------------------------------------------------------------------- */
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.no-select {
+  user-select: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   Arabic typography
+   --------------------------------------------------------------------------
+   Plus Jakarta Sans ships no Arabic glyphs, so without this every Arabic
+   string would fall back to whatever the OS picks — usually a mismatched
+   face at the wrong weight. IBM Plex Sans Arabic is metrically comfortable
+   next to the Latin type already in use.
+
+   Arabic script has no uppercase, so `text-transform` and wide letter
+   spacing are neutralised: applied to Arabic they do nothing useful and
+   letter-spacing actively breaks the cursive joins between glyphs.
+   -------------------------------------------------------------------------- */
+[lang='ar'] body,
+[lang='ar'] button,
+[lang='ar'] input,
+[lang='ar'] textarea,
+[lang='ar'] select,
+[lang='ar'] h1,
+[lang='ar'] h2,
+[lang='ar'] h3 {
+  font-family: var(--font-ar);
+}
+
+[lang='ar'] {
+  letter-spacing: normal;
+}
+
+[lang='ar'] .eyebrow,
+[lang='ar'] .badge,
+[lang='ar'] .stat__label,
+[lang='ar'] .dtable__head,
+[lang='ar'] .nav-group,
+[lang='ar'] .slot-break__label,
+[lang='ar'] .slot-off__label,
+[lang='ar'] .appt__status {
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+/* Slightly more line height — Arabic diacritics and descenders need it. */
+[lang='ar'] body {
+  line-height: 1.6;
+  /* Arabic strokes read thinner than Latin at the same nominal weight, so
+     the whole interface is nudged up one step: body copy to 500, and every
+     already-bold element up a notch. Without this the Arabic UI looks faint
+     next to the English one. */
+  font-weight: 500;
+}
+
+[lang='ar'] .fw-6,
+[lang='ar'] .kv__v,
+[lang='ar'] .nav-item,
+[lang='ar'] .chip,
+[lang='ar'] .btn-outline,
+[lang='ar'] .menu__item,
+[lang='ar'] .tab {
+  font-weight: 600;
+}
+
+[lang='ar'] .fw-7,
+[lang='ar'] .card-title,
+[lang='ar'] .field-label,
+[lang='ar'] .nav-item.is-active,
+[lang='ar'] .btn,
+[lang='ar'] .stat__label,
+[lang='ar'] .dtable__head,
+[lang='ar'] .eyebrow,
+[lang='ar'] .badge,
+[lang='ar'] .modal__title {
+  font-weight: 700;
+}
+
+[lang='ar'] .fw-8,
+[lang='ar'] h1,
+[lang='ar'] h2,
+[lang='ar'] h3,
+[lang='ar'] .header-title,
+[lang='ar'] .page-intro__title,
+[lang='ar'] .stat__value,
+[lang='ar'] .auth__title {
+  font-weight: 800;
+}
+
+/* The icon font must keep its own family, or ligature names render as text. */
+[lang='ar'] i,
+[lang='ar'] .ico {
+  font-family: 'Material Symbols Rounded';
+  letter-spacing: normal;
+}
+
+/* Monospace IDs and amounts stay Latin. */
+[lang='ar'] .mono {
+  font-family: var(--font-mono);
+}

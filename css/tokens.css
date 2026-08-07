@@ -1,0 +1,160 @@
+/* ==========================================================================
+   tokens.css — Design tokens (single source of truth for colour & elevation)
+   --------------------------------------------------------------------------
+   Every colour in the UI resolves through one of these custom properties.
+   Nothing else in the codebase may hard-code a hex value, so re-theming the
+   product means editing this file alone.
+
+   Two themes ship: the default (light) on :root, and dark on
+   [data-theme="dark"]. The theme is applied to <html> by js/core/theme.js.
+   ========================================================================== */
+
+:root {
+  /* — Surfaces ————————————————————————————————————————————————— */
+  --bg: #eef0f4;
+  --surface: #ffffff;
+  --surface-2: #f7f8fb;
+  --hover: #f4f6f9;
+
+  /* — Borders ————————————————————————————————————————————————— */
+  --line: #e8eaee;
+  --line-soft: #f0f2f5;
+  --line-strong: #cfd4dd;
+
+  /* — Text ———————————————————————————————————————————————————— */
+  --ink: #1a1f2b;
+  --ink-2: #3c4453;
+  --ink-3: #5b6474;
+  --muted: #8a919f;
+  --muted-2: #a4abb8;
+
+  /* — Brand (teal) ———————————————————————————————————————————— */
+  --brand: #0e7a70;
+  --brand-strong: #0a5f57;
+  --brand-soft: #e6f4f2;
+  --brand-line: #cfe6e3;
+  --brand-fill: #bfe3df;
+
+  /* — Info (indigo) ——————————————————————————————————————————— */
+  --info: #3a51a8;
+  --info-strong: #2c3f88;
+  --info-soft: #eef1fa;
+  --info-line: #d9e5f8;
+  --info-fill: #c8d3f2;
+
+  /* — Success ————————————————————————————————————————————————— */
+  --ok: #14875a;
+  --ok-soft: #e4f5ec;
+
+  /* — Danger —————————————————————————————————————————————————— */
+  --danger: #c0362c;
+  --danger-strong: #8e2820;
+  --danger-soft: #fceceb;
+  --danger-line: #f0d5d3;
+  --danger-fill: #fbdedb;
+
+  /* — Warning ————————————————————————————————————————————————— */
+  --warn: #b26a00;
+  --warn-accent: #e0a43a;
+  --warn-soft: #fdf1e0;
+  --warn-line: #f8ecd8;
+
+  /* — Accent —————————————————————————————————————————————————— */
+  --purple: #8a4bb8;
+  --purple-soft: #f3ebfa;
+
+  /* — Elevation & overlay ————————————————————————————————————— */
+  --shadow-lg: 0 30px 70px rgba(20, 25, 38, 0.25);
+  --shadow-md: 0 14px 40px rgba(20, 25, 38, 0.14);
+  --scrim: rgba(20, 25, 38, 0.34);
+
+  /* — Charts —————————————————————————————————————————————————— */
+  --grid-line: #f0f2f5;
+  --axis-line: #e8eaee;
+  --chart-dot: #ffffff;
+
+  /* — Odontogram ————————————————————————————————————————————— */
+  --tooth-pending: #fbeed6;
+
+  /* — Geometry ———————————————————————————————————————————————— */
+  --aside-w: 236px;
+  --radius-card: 16px;
+  --radius-control: 10px;
+  --header-h: 66px;
+
+  /* — Type ———————————————————————————————————————————————————— */
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* Arabic needs its own face: Plus Jakarta Sans has no Arabic glyphs, so
+     RTL text would fall back to an arbitrary system font. */
+  --font-ar: 'IBM Plex Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+}
+
+[data-theme='dark'] {
+  --bg: #0d1015;
+  --surface: #161a21;
+  --surface-2: #1c212a;
+  --hover: #232935;
+
+  --line: #272d38;
+  --line-soft: #212733;
+  --line-strong: #39414f;
+
+  --ink: #e9edf3;
+  --ink-2: #c6ccd6;
+  --ink-3: #a2aab8;
+  --muted: #8b93a2;
+  --muted-2: #6f7787;
+
+  --brand: #2bb2a3;
+  --brand-strong: #4fcbbc;
+  --brand-soft: #12332f;
+  --brand-line: #1d4f48;
+  --brand-fill: #1c5a52;
+
+  --info: #7b91e0;
+  --info-strong: #a8b8f0;
+  --info-soft: #1d2440;
+  --info-line: #2d3866;
+  --info-fill: #2f3c72;
+
+  --ok: #3fbb83;
+  --ok-soft: #12301f;
+
+  --danger: #ea6a5f;
+  --danger-strong: #f5978e;
+  --danger-soft: #37191a;
+  --danger-line: #5a2a28;
+  --danger-fill: #4a221f;
+
+  --warn: #d99a3a;
+  --warn-accent: #e8b45c;
+  --warn-soft: #33260f;
+  --warn-line: #4d3a17;
+
+  --purple: #a985d6;
+  --purple-soft: #2a2039;
+
+  --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.6);
+  --shadow-md: 0 14px 40px rgba(0, 0, 0, 0.45);
+  --scrim: rgba(4, 6, 10, 0.6);
+
+  --grid-line: #212733;
+  --axis-line: #2b323d;
+  --chart-dot: #161a21;
+
+  --tooth-pending: #33260f;
+}
+
+/* Tint ramp used for generated avatars, chart series and category chips.
+   Referenced from JS via TINTS in js/data/constants.js — keep in sync. */
+:root {
+  --tint-1: #0e7a70;
+  --tint-2: #3a51a8;
+  --tint-3: #b26a00;
+  --tint-4: #8a4bb8;
+  --tint-5: #c0362c;
+  --tint-6: #1f7a9c;
+  --tint-7: #5b6474;
+  --tint-8: #14875a;
+}

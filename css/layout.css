@@ -1,0 +1,550 @@
+/* ==========================================================================
+   layout.css — The application shell
+   --------------------------------------------------------------------------
+   Three regions: the sidebar (.app-aside), the top bar (.app-header) and the
+   scrolling content well (.app-content). The shell is a fixed-height flex row
+   so only .app-content ever scrolls.
+
+   Below --bp-nav the sidebar becomes an overlay drawer driven by the
+   `.is-open` class (see js/components/sidebar.js).
+   ========================================================================== */
+
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+/* --------------------------------------------------------------------------
+   Sidebar
+   -------------------------------------------------------------------------- */
+.app-aside {
+  width: var(--aside-w);
+  flex: none;
+  background: var(--surface);
+  border-inline-end: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 41;
+  transition: transform 0.2s ease;
+}
+
+.aside-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 20px 18px;
+}
+
+.aside-brand__mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--brand);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  flex: none;
+}
+
+.aside-brand__mark i {
+  font-size: 19px;
+  font-variation-settings: 'FILL' 1;
+}
+
+.aside-brand__name {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  flex: 1;
+  min-width: 0;
+}
+
+.aside-brand__close {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  display: none;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.aside-brand__close i { font-size: 17px; }
+
+/* Clinic switcher card */
+.aside-clinic {
+  margin: 0 14px 16px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  background: var(--surface);
+  transition: background 0.15s ease, border-color 0.15s ease;
+  text-align: start;
+  width: calc(100% - 28px);
+}
+
+.aside-clinic:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-2);
+}
+
+.aside-clinic__mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--brand-soft);
+  color: var(--brand);
+  display: grid;
+  place-items: center;
+  flex: none;
+}
+
+.aside-clinic__mark i { font-size: 17px; }
+
+.aside-clinic__name {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.aside-clinic__addr {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* Navigation list */
+.aside-nav {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nav-group {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  color: var(--muted-2);
+  padding: 16px 11px 7px;
+}
+
+.nav-rule {
+  height: 1px;
+  background: var(--line);
+  margin: 16px 4px 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  border: none;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-3);
+  background: none;
+  cursor: pointer;
+  text-align: start;
+  width: 100%;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.nav-item i { font-size: 19px; }
+
+.nav-item:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.nav-item.is-active {
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-soft);
+  box-shadow: inset 2px 0 0 var(--brand);
+}
+
+.nav-item.is-active i {
+  font-variation-settings: 'FILL' 1, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+[dir='rtl'] .nav-item.is-active {
+  box-shadow: inset -2px 0 0 var(--brand);
+}
+
+/* --------------------------------------------------------------------------
+   Main column
+   -------------------------------------------------------------------------- */
+.app-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.app-header {
+  /* Establishes a stacking context above .app-content so the account
+     dropdown paints over the page. Without it the header has no z-index and
+     the content well — later in the DOM — draws on top of the open menu.
+     Kept below the sidebar drawer (41) and every overlay (60+). */
+  position: relative;
+  z-index: 30;
+  flex: none;
+  min-height: var(--header-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px;
+  flex-wrap: wrap;
+}
+
+.header-burger {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  display: none;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.header-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+/* Global search */
+.header-search {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  justify-content: center;
+}
+
+.header-search__box {
+  position: relative;
+  width: min(420px, 100%);
+}
+
+.header-search__icon {
+  position: absolute;
+  inset-inline-start: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--muted-2);
+  pointer-events: none;
+}
+
+.header-search__input {
+  width: 100%;
+  height: 38px;
+  border-radius: 19px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  padding-block: 0;
+  padding-inline: 38px 34px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.header-search__input:focus {
+  border-color: var(--brand);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--brand-soft);
+}
+
+.header-search__clear {
+  position: absolute;
+  inset-inline-end: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: none;
+  background: var(--bg);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.header-search__clear:hover { background: var(--line-strong); }
+.header-search__clear i { font-size: 15px; }
+
+/* Header actions */
+.header-add {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+  transition: background 0.15s ease;
+}
+
+.header-add:hover { background: var(--brand-strong); }
+
+/* Language segmented control */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 3px;
+  border-radius: 20px;
+  background: var(--surface-2);
+  flex: none;
+}
+
+.lang-switch__btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding-inline: 9px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  background: transparent;
+  color: var(--muted);
+}
+
+.lang-switch__btn.is-active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgba(20, 25, 38, 0.12);
+}
+
+.lang-switch__flag {
+  width: 18px;
+  height: 12px;
+  border-radius: 2px;
+  display: block;
+  flex: none;
+}
+
+.header-icon-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.header-icon-btn:hover { background: var(--hover); }
+
+.header-icon-btn--ghost {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+}
+
+.header-icon-btn--ghost:hover {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.header-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--line);
+  flex: none;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  flex: none;
+  white-space: nowrap;
+}
+
+.header-user__avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--surface);
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.header-user__name {
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.header-user__role {
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+/* --------------------------------------------------------------------------
+   Content well
+   -------------------------------------------------------------------------- */
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px 24px 40px;
+}
+
+.page-intro {
+  margin-bottom: 18px;
+}
+
+.page-intro__title {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.page-intro__sub {
+  font-size: 12.5px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive — sidebar collapses to an overlay drawer
+   -------------------------------------------------------------------------- */
+.app-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: var(--scrim);
+  border: none;
+  padding: 0;
+}
+
+@media (max-width: 1024px) {
+  .app-aside {
+    position: fixed;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  [dir='rtl'] .app-aside {
+    transform: translateX(100%);
+  }
+
+  .app-aside.is-open,
+  [dir='rtl'] .app-aside.is-open {
+    transform: translateX(0);
+  }
+
+  .aside-brand__close { display: grid; }
+  .header-burger { display: grid; }
+}
+
+/* --------------------------------------------------------------------------
+   Tablet
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .app-content { padding: 18px 16px 36px; }
+  .header-title { font-size: 18px; }
+}
+
+/* --------------------------------------------------------------------------
+   Phone
+   --------------------------------------------------------------------------
+   The header is the tight constraint here: at 390px the full control set
+   wrapped onto three rows and ate ~130px of a 844px screen. Search drops to
+   its own row (it needs the width), the language labels reduce to flags, and
+   notifications give way — it is the one control with no unique function on
+   a phone. That brings the header back to two rows.
+   -------------------------------------------------------------------------- */
+@media (max-width: 720px) {
+  .app-content { padding: 14px 12px 32px; }
+
+  .app-header {
+    padding: 8px 12px;
+    gap: 8px;
+    row-gap: 8px;
+  }
+
+  .header-title {
+    font-size: 17px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-user__text { display: none; }
+
+  /* Full-width, on the row below everything else. */
+  .header-search {
+    order: 10;
+    flex-basis: 100%;
+    min-width: 0;
+  }
+
+  .header-search__input { height: 36px; }
+
+  /* Flags alone identify the language; the letters are redundant here. */
+  .lang-switch__label { display: none; }
+  .lang-switch__btn { padding-inline: 8px; gap: 0; }
+  .lang-switch__flag { width: 20px; height: 14px; }
+
+  .header-icon-btn--ghost { display: none; }
+  .header-divider { display: none; }
+
+  .header-add,
+  .header-icon-btn { width: 32px; height: 32px; }
+  .header-user__avatar { width: 32px; height: 32px; }
+
+  .page-intro__title { font-size: 17px; }
+  .card--pad { padding: 16px 14px; }
+  .card-toolbar { padding: 14px 14px; gap: 10px; }
+}
+
+/* Very narrow — hide the header's new-item shortcut, which every page also
+   offers in its own toolbar. */
+@media (max-width: 400px) {
+  .header-add { display: none; }
+  .aside-brand__name { font-size: 16px; }
+}

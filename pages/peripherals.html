@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Peripherals — Ivora Clinic Suite.">
+  <title>Peripherals · Ivora Clinic Suite</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,300,0..1,0&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3, vendored locally. Reboot + utilities only: the full
+       build's component layer defines .card, .row and .modal, which are also
+       this app's own component names. See css/bootstrap-overrides.css. -->
+  <link rel="stylesheet" href="../css/vendor/bootstrap-reboot.min.css">
+  <link rel="stylesheet" href="../css/vendor/bootstrap-utilities.min.css">
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/bootstrap-overrides.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/charts.css">
+  <link rel="stylesheet" href="../css/calendar.css">
+  <link rel="stylesheet" href="../css/odontogram.css">
+  <link rel="stylesheet" href="../css/builder.css">
+  <link rel="stylesheet" href="../css/overlays.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <noscript>
+    <div style="padding:40px;text-align:center;font-family:system-ui,sans-serif">
+      <h1>JavaScript required</h1>
+      <p>Ivora Clinic Suite renders its interface on the client. Please enable JavaScript.</p>
+    </div>
+  </noscript>
+
+  <!-- Which screen this file opens on. Read by js/core/router.js. -->
+  <script>window.IVORA_START_PAGE = "peripherals";</script>
+
+  <!-- Application scripts.
+
+       Listed in DEPENDENCY ORDER. Each file reaches the ones above it via
+       Ivora.require(), so reordering this list will break the app — the
+       order deliberately interleaves core/ and data/ (core/store needs
+       data/index). If you add a file, place it after everything it needs.
+       js/ivora.js must stay first.
+
+       No build step: these are plain scripts. Edit one and refresh. -->
+  <script src="../js/ivora.js"></script>
+  <script src="../js/core/dom.js"></script>
+  <script src="../js/core/i18n.js"></script>
+  <script src="../js/data/clinic.js"></script>
+  <script src="../js/data/patients.js"></script>
+  <script src="../js/data/treatments.js"></script>
+  <script src="../js/data/finance.js"></script>
+  <script src="../js/data/inventory.js"></script>
+  <script src="../js/data/website.js"></script>
+  <script src="../js/data/analytics.js"></script>
+  <script src="../js/data/support.js"></script>
+  <script src="../js/data/index.js"></script>
+  <script src="../js/core/store.js"></script>
+  <script src="../js/core/router.js"></script>
+  <script src="../js/core/theme.js"></script>
+  <script src="../js/core/session.js"></script>
+  <script src="../js/components/sidebar.js"></script>
+  <script src="../js/components/header.js"></script>
+  <script src="../js/core/format.js"></script>
+  <script src="../js/components/search.js"></script>
+  <script src="../js/core/scheduling.js"></script>
+  <script src="../js/components/modals/shell.js"></script>
+  <script src="../js/components/ui.js"></script>
+  <script src="../js/components/modals/appt-modal.js"></script>
+  <script src="../js/components/modals/doctor-modal.js"></script>
+  <script src="../js/components/modals/patient-modal.js"></script>
+  <script src="../js/components/modals/treatment-modal.js"></script>
+  <script src="../js/components/modals/transfer-modal.js"></script>
+  <script src="../js/components/modals/receive-modal.js"></script>
+  <script src="../js/components/odontogram.js"></script>
+  <script src="../js/components/dental-arch.js"></script>
+  <script src="../js/components/modals/checkup-modal.js"></script>
+  <script src="../js/components/reservation-panel.js"></script>
+  <script src="../js/components/bill-drawer.js"></script>
+  <script src="../js/components/site-preview.js"></script>
+  <script src="../js/components/overlays.js"></script>
+  <script src="../js/components/charts.js"></script>
+  <script src="../js/pages/dashboard.js"></script>
+  <script src="../js/pages/reservations.js"></script>
+  <script src="../js/pages/patients.js"></script>
+  <script src="../js/pages/patient-detail.js"></script>
+  <script src="../js/pages/treatments.js"></script>
+  <script src="../js/pages/staff.js"></script>
+  <script src="../js/pages/accounts.js"></script>
+  <script src="../js/pages/sales.js"></script>
+  <script src="../js/pages/purchases.js"></script>
+  <script src="../js/pages/payment.js"></script>
+  <script src="../js/pages/website.js"></script>
+  <script src="../js/pages/analytics.js"></script>
+  <script src="../js/pages/stocks.js"></script>
+  <script src="../js/pages/peripherals.js"></script>
+  <script src="../js/pages/report.js"></script>
+  <script src="../js/pages/support.js"></script>
+  <script src="../js/pages/stub.js"></script>
+  <script src="../js/pages/profile.js"></script>
+  <script src="../js/pages/index.js"></script>
+  <script src="../js/app.js"></script>
+</body>
+</html>

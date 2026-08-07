@@ -1,0 +1,331 @@
+/* ==========================================================================
+   overlays.css — Modals, drawers, side panels and the full-screen preview
+   --------------------------------------------------------------------------
+   Z-index ladder (keep these the only fixed layers in the app):
+     40/41  sidebar drawer + its scrim
+     60/61  reservation drawer, bill drawer
+     70/71  standard modals
+     80/81  stacked modals (opened from inside a drawer)
+     90     full-screen website preview
+   ========================================================================== */
+
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: var(--scrim);
+  border: none;
+  padding: 0;
+  cursor: default;
+}
+
+.scrim--modal  { z-index: 70; }
+.scrim--drawer { z-index: 60; }
+.scrim--stack  { z-index: 80; }
+
+/* --------------------------------------------------------------------------
+   Centred modal
+   -------------------------------------------------------------------------- */
+.modal {
+  position: fixed;
+  z-index: 71;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(600px, calc(100vw - 56px));
+  max-height: calc(100vh - 56px);
+  background: var(--surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal--stack { z-index: 81; width: min(640px, calc(100vw - 40px)); max-height: calc(100vh - 40px); }
+.modal--sm    { width: min(540px, calc(100vw - 56px)); }
+.modal--md    { width: min(560px, calc(100vw - 56px)); }
+
+.modal__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+
+.modal__title {
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.modal__sub {
+  font-size: 11.5px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Content-sized, not stretched: `flex: 1` would set flex-basis to 0 and make
+   the dialog fill its max-height, leaving dead space under short forms.
+   `0 1 auto` keeps the modal hugging its content while still allowing the
+   body to shrink and scroll once the content exceeds max-height. */
+.modal__body {
+  padding: 20px 22px;
+  overflow-y: auto;
+  flex: 0 1 auto;
+  min-height: 0;
+}
+
+.modal__foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  flex: none;
+  flex-wrap: wrap;
+}
+
+.modal__close {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.modal__close:hover { background: var(--hover); color: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   Right-hand drawer (bill detail)
+   -------------------------------------------------------------------------- */
+.drawer {
+  position: fixed;
+  top: 14px;
+  inset-inline-end: 14px;
+  bottom: 14px;
+  z-index: 61;
+  width: 432px;
+  max-width: calc(100vw - 28px);
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.drawer__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+
+.drawer__body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.drawer__foot {
+  padding: 14px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   Reservation panel rail
+   --------------------------------------------------------------------------
+   The reservation view is a rail of side-by-side panels pinned to the inline
+   end of the viewport: the reservation card itself, plus optional secondary
+   panels (record / next visit / attachments / summary) that slide in beside
+   it. Pointer events are re-enabled per panel so the rail's gaps stay
+   click-through to the scrim beneath.
+   -------------------------------------------------------------------------- */
+.rail {
+  position: fixed;
+  inset: 14px;
+  z-index: 61;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  gap: 12px;
+  pointer-events: none;
+}
+
+.rail__panel {
+  pointer-events: auto;
+  flex: 1 1 380px;
+  max-width: 520px;
+  min-width: 320px;
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.rail__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--line);
+  flex: none;
+}
+
+.rail__body {
+  padding: 16px 18px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.rail__foot {
+  padding: 13px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  flex: none;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+  .rail { inset: 8px; }
+  .rail__panel:not(:last-child) { display: none; }
+  .rail__panel { max-width: none; min-width: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Full-screen website preview
+   -------------------------------------------------------------------------- */
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.fullscreen__bar {
+  flex: none;
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.fullscreen__stage {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fullscreen__frame {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  transition: width 0.25s ease;
+  align-self: flex-start;
+  box-shadow: var(--shadow-md);
+}
+
+/* --------------------------------------------------------------------------
+   Stepper — used by the multi-step doctor and check-up modals
+   -------------------------------------------------------------------------- */
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stepper__node {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stepper__dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--line-soft);
+  color: var(--muted);
+  flex: none;
+}
+
+.stepper__dot.is-active { background: var(--brand); color: #fff; }
+.stepper__dot.is-done   { background: var(--brand-soft); color: var(--brand); }
+
+.stepper__label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.stepper__label.is-active { color: var(--ink); }
+
+.stepper__line {
+  width: 22px;
+  height: 1px;
+  background: var(--line);
+  flex: none;
+}
+
+/* --------------------------------------------------------------------------
+   Entry animations
+   --------------------------------------------------------------------------
+   Applied via `.is-entering`, never on the base class.
+
+   A state change re-renders the whole tree, so an overlay's element is a NEW
+   node on every click inside it. If the animation lived on `.modal` or
+   `.scrim`, it would restart each time — the dialog visibly re-popped and the
+   backdrop re-flashed on every keystroke and chip tap.
+
+   js/components/overlays.js adds `.is-entering` only on the render where an
+   overlay first appears, so it animates in once and then holds still.
+   -------------------------------------------------------------------------- */
+.scrim.is-entering,
+.fullscreen.is-entering,
+.app-scrim.is-entering {
+  animation: dcFade 0.16s ease both;
+}
+
+.modal.is-entering {
+  animation: dcPopCenter 0.18s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+.drawer.is-entering {
+  animation: dcSlide 0.2s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+.rail__panel.is-entering {
+  animation: dcPanel 0.18s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}

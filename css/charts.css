@@ -1,0 +1,182 @@
+/* ==========================================================================
+   charts.css — Chart chrome
+   --------------------------------------------------------------------------
+   All charts are hand-rolled SVG/flexbox (no charting library). Geometry is
+   computed in js/components/charts.js; this file owns the presentation.
+   Charts are always authored left-to-right, so their containers carry .ltr.
+   ========================================================================== */
+
+.chart {
+  position: relative;
+  direction: ltr;
+}
+
+/* --------------------------------------------------------------------------
+   Area / line chart
+   -------------------------------------------------------------------------- */
+.chart-line__svg {
+  width: 100%;
+  height: 200px;
+  display: block;
+}
+
+/* Invisible hover columns sitting over the SVG, one per data point. They
+   carry the tooltip (title) and paint the point marker. */
+.chart-line__hit {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+
+.chart-line__col {
+  flex: 1 1 0;
+  position: relative;
+  cursor: default;
+  transition: background 0.12s ease;
+}
+
+.chart-line__col:hover { background: rgba(14, 122, 112, 0.05); }
+
+.chart-line__dot {
+  position: absolute;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--chart-dot);
+  border: 2.5px solid var(--brand);
+}
+
+.chart-axis {
+  direction: ltr;
+  display: flex;
+  margin-top: 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--muted-2);
+}
+
+.chart-axis > span {
+  flex: 1 1 0;
+  text-align: center;
+}
+
+/* --------------------------------------------------------------------------
+   Grouped bar chart
+   -------------------------------------------------------------------------- */
+.chart-bars {
+  direction: ltr;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 130px;
+}
+
+.chart-bars__group {
+  flex: 1 1 0;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  border-radius: 6px;
+  transition: background 0.12s ease;
+}
+
+.chart-bars__group:hover { background: var(--surface-2); }
+
+.chart-bars__bar {
+  width: 38%;
+  max-width: 16px;
+  border-radius: 4px 4px 0 0;
+  transition: height 0.3s ease;
+}
+
+.chart-bars__bar--income  { background: var(--brand); }
+.chart-bars__bar--expense { background: var(--warn-accent); }
+
+.chart-bars + .chart-axis { gap: 6px; }
+.chart-bars + .chart-axis > span { flex: 1 1 0; }
+
+/* --------------------------------------------------------------------------
+   Donut chart
+   -------------------------------------------------------------------------- */
+.chart-donut {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.chart-donut__svg {
+  width: 148px;
+  height: 148px;
+  flex: none;
+  transform: rotate(-90deg);
+}
+
+.chart-donut__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  pointer-events: none;
+}
+
+.chart-donut__wrap {
+  position: relative;
+  flex: none;
+}
+
+.chart-donut__legend {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.chart-donut__item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   Horizontal ranked bars (analytics: pages, countries, buttons)
+   -------------------------------------------------------------------------- */
+.rankbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 0;
+}
+
+.rankbar__track {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--brand-soft);
+  border-radius: 6px;
+  z-index: 0;
+  transition: width 0.3s ease;
+}
+
+.rankbar > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   Sparkline / mini trend
+   -------------------------------------------------------------------------- */
+.spark {
+  width: 100%;
+  height: 44px;
+  display: block;
+}

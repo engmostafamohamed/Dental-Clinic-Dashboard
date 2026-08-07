@@ -1,0 +1,91 @@
+/* ==========================================================================
+   bootstrap-overrides.css — Reconcile Bootstrap 5 with the design system
+   --------------------------------------------------------------------------
+   Bootstrap supplies the grid, spacing utilities and reboot. Its default
+   colours, radii and type scale do not match this product, so they are
+   re-pointed at our tokens here rather than fought with `!important` further
+   down the cascade.
+
+   Load order: bootstrap.min.css → tokens.css → base.css → this file.
+   ========================================================================== */
+
+:root {
+  /* Re-point Bootstrap's theme variables at our tokens so any Bootstrap
+     component picked up later inherits the right palette. */
+  --bs-body-bg: var(--bg);
+  --bs-body-color: var(--ink);
+  --bs-body-font-family: var(--font-sans);
+  --bs-body-font-size: 13px;
+  --bs-border-color: var(--line);
+  --bs-border-radius: 10px;
+  --bs-border-radius-sm: 8px;
+  --bs-border-radius-lg: 16px;
+  --bs-primary: var(--brand);
+  --bs-primary-rgb: 14, 122, 112;
+  --bs-secondary-color: var(--muted);
+  --bs-emphasis-color: var(--ink);
+  --bs-tertiary-bg: var(--surface-2);
+  --bs-link-color: var(--brand);
+  --bs-link-hover-color: var(--brand-strong);
+  --bs-focus-ring-color: var(--brand-soft);
+  --bs-heading-color: var(--ink);
+}
+
+/* Bootstrap's reboot sets these on <body>; the app shell needs them to match
+   the design and to stop the page itself from scrolling. */
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+/* Bootstrap gives headings a bottom margin and a larger scale than this
+   dense admin UI wants. */
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+  line-height: 1.25;
+}
+
+/* Reboot applies a bottom margin to <p>; the design spaces with flex gaps. */
+p { margin-bottom: 0; }
+
+/* Bootstrap resets button appearance but keeps a transparent border that
+   shifts our 1px-bordered controls by a pixel. */
+button { border: none; background: none; }
+
+/* Keep Bootstrap's focus ring from doubling up with our own box-shadow. */
+.btn:focus,
+.btn:focus-visible,
+.form-control:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* Our own controls own their focus treatment; make it visible for keyboard
+   users without the Bootstrap ring. */
+.btn:focus-visible,
+.nav-item:focus-visible,
+.tab:focus-visible,
+.chip:focus-visible,
+.toggle:focus-visible,
+.check:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Class-name collisions
+   --------------------------------------------------------------------------
+   `.card`, `.row` and `.modal` are this app's component names AND Bootstrap
+   component names. index.html loads only bootstrap-reboot + bootstrap-utilities,
+   neither of which defines them, so there is nothing to override here — the
+   collision is avoided structurally rather than by specificity.
+
+   If anyone swaps index.html back to the full bootstrap.min.css, three things
+   break and the fixes belong here, not in components.css:
+     .row > *   Bootstrap forces width:100% on every child
+     .modal     Bootstrap sets height:100% (the panel stops hugging content)
+     .card      Bootstrap sets display:flex and a bottom margin
+   -------------------------------------------------------------------------- */

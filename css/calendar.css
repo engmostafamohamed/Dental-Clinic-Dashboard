@@ -1,0 +1,332 @@
+/* ==========================================================================
+   calendar.css — Reservation board (day view, one column per dentist)
+   --------------------------------------------------------------------------
+   A horizontally scrolling board: a fixed time gutter, one flexible column
+   per on-shift dentist, and a trailing "add doctor" column. Appointment
+   cards are HTML5-draggable between cells (see js/pages/reservations.js).
+   ========================================================================== */
+
+.board-scroll { overflow-x: auto; }
+.board { min-width: 1080px; }
+
+/* --------------------------------------------------------------------------
+   Header row — sticky so dentist names stay visible while scrolling
+   -------------------------------------------------------------------------- */
+.board__head {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.board__gutter {
+  width: 76px;
+  flex: none;
+  padding: 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--muted-2);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.board__doc {
+  flex: 1 1 0;
+  min-width: 190px;
+  padding: 10px 12px;
+  border-inline-start: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.board__doc-name {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.board__doc-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: var(--muted);
+}
+
+.board__doc-meta i { font-size: 13px; }
+
+.board__doc-sep { color: var(--line-strong); }
+
+.board__addcol {
+  width: 168px;
+  flex: none;
+  padding: 10px 12px;
+  border-inline-start: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+}
+
+.board__adddoc {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 9px;
+  border: 1.5px dashed var(--brand-line);
+  background: var(--brand-soft);
+  color: var(--brand);
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.board__adddoc:hover { border-color: var(--brand); }
+
+/* --------------------------------------------------------------------------
+   Time rows
+   -------------------------------------------------------------------------- */
+.board__row {
+  display: flex;
+  border-bottom: 1px solid var(--hover);
+  min-height: 74px;
+}
+
+.board__time {
+  width: 76px;
+  flex: none;
+  padding: 7px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted-2);
+  text-align: end;
+}
+
+.board__cell {
+  flex: 1 1 0;
+  min-width: 190px;
+  border-inline-start: 1px solid var(--hover);
+  padding: 5px;
+  transition: background 0.12s ease;
+}
+
+/* Drop target highlight while dragging a card over a bookable slot */
+.board__cell.is-over { background: var(--brand-soft); }
+
+.board__tailcol {
+  width: 168px;
+  flex: none;
+  border-inline-start: 1px solid var(--hover);
+}
+
+/* --------------------------------------------------------------------------
+   Appointment card
+   -------------------------------------------------------------------------- */
+.appt {
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  text-align: start;
+  border: none;
+  border-inline-start: 3px solid var(--appt-tone, var(--brand));
+  border-radius: 8px;
+  background: var(--appt-bg, var(--brand-soft));
+  padding: 8px 10px;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: filter 0.12s ease, opacity 0.12s ease;
+}
+
+.appt:hover { filter: brightness(0.97); }
+.appt:active { cursor: grabbing; }
+.appt.is-dragging { opacity: 0.4; }
+
+.appt__top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.appt__grip {
+  font-size: 14px;
+  color: var(--muted-2);
+  cursor: grab;
+}
+
+.appt__patient {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.appt__status {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--appt-tone, var(--brand));
+  white-space: nowrap;
+}
+
+.appt__time {
+  font-size: 10.5px;
+  color: var(--ink-3);
+}
+
+.appt__tx {
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 2px 6px;
+  align-self: flex-start;
+}
+
+/* --------------------------------------------------------------------------
+   Empty / unavailable slots
+   -------------------------------------------------------------------------- */
+.slot-free {
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  border: 1px dashed transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted-2);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.slot-free:hover {
+  border-color: var(--brand-line);
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+
+.slot-break {
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--warn-soft),
+    var(--warn-soft) 7px,
+    var(--warn-line) 7px,
+    var(--warn-line) 14px
+  );
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  color: var(--warn);
+}
+
+.slot-break i { font-size: 17px; }
+
+.slot-break__label {
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.slot-break__range {
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.slot-off {
+  width: 100%;
+  height: 100%;
+  min-height: 62px;
+  border-radius: 8px;
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface-2),
+    var(--surface-2) 7px,
+    var(--line-soft) 7px,
+    var(--line-soft) 14px
+  );
+  display: grid;
+  place-items: center;
+}
+
+.slot-off__label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--muted-2);
+}
+
+/* --------------------------------------------------------------------------
+   Day navigation strip
+   -------------------------------------------------------------------------- */
+.daynav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  flex-wrap: wrap;
+}
+
+.daynav__label {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 130px;
+  text-align: center;
+}
+
+.daynav__arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex: none;
+}
+
+.daynav__arrow:hover { border-color: var(--line-strong); }
+
+.daynav__today {
+  height: 34px;
+  padding: 0 15px;
+  border-radius: 9px;
+  border: 1.5px solid var(--brand);
+  background: var(--surface);
+  color: var(--brand);
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Filter bar under the day nav */
+.filterbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 14px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line);
+}
+
+.filterbar .select {
+  height: 34px;
+  border-radius: 9px;
+  font-size: 12.5px;
+  padding-inline: 12px 30px;
+}
